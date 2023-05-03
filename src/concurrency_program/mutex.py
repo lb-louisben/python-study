@@ -41,5 +41,5 @@ def task(name):
 
 if __name__ == '__main__':
     for i in range(1, 9):
-       p = Process(target=task, args=(i,))
-       p.start()
+        p = Process(target=task, args=(i,))
+        p.start()
