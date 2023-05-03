@@ -27,26 +27,27 @@ print('服务端启动成功，在', _port ,'端口等待连接...')
 # 4. 取出连接请求，开始服务
 
 # 持续提供服务，并发提供服务
-conn, addr = sk.accept()
-print('客户端 ip + port:', addr)
-
-# 5. 数据传输
 while True:
-    try:
-        data = conn.recv(1024)
-    except:
-        print('服务端程序正在退出中...')
-        break
-    if not data:
-        print('服务端程序正在退出中...')
-        break
-    data = data.decode('utf-8')
-    print('客户端发来的数据:', data)
+    conn, addr = sk.accept()
+    print('客户端 ip + port:', addr)
 
-    conn.send(data.upper().encode('utf-8'))
+    # 5. 数据传输
+    while True:
+        try:
+            data = conn.recv(1024)
+        except:
+            print('服务端程序正在退出中...')
+            break
+        if not data:
+            print('服务端程序正在退出中...')
+            break
+        data = data.decode('utf-8')
+        print('客户端发来的数据:', data)
 
-# 6. terminate current service
-conn.close()
+        conn.send(data.upper().encode('utf-8'))
+
+    # 6. terminate current service
+    conn.close()
 
 # optional, like close all server
 # sk.close()

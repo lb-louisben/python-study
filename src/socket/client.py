@@ -17,8 +17,8 @@ _port = 8081
 sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   # 流式协议 - (TCP 协议), SOCK_DGRAM (数据报 UDP协议)
 
 # 2. 建立连接
-sk.connect((public_ip, _port))
-# sk.connect((_cip, _port))
+# sk.connect((public_ip, _port))
+sk.connect((_cip, _port))
 
 # 3. 传输数据
 while True:
