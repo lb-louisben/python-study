@@ -3,12 +3,15 @@
 @Project    : python-study 
 @File       : mutex.py
 @Author     : louis
-@Date       : 5/3/23 17:17 
+@Date       : 5/3/23 17:17
+
+fix: 当多个进程操作同一份数据的时候, 会出现数据错乱的问题, 解决方法就是加锁处理
+     把并发变成串行,量然牺牲了运行效率,但是保证了数据的安全
 """
 import json
 import random
 import time
-from multiprocessing import Process
+from multiprocessing import Process, Lock
 
 
 # 查票
@@ -34,12 +37,15 @@ def buy_tickets(name):
         print(f'用户{name}买票失败')
 
 
-def task(name):
+def task(name, mutex):
     search_ticket(name)
+    mutex.acquire() # 抢锁
     buy_tickets(name)
+    mutex.release() # 释放锁
 
 
 if __name__ == '__main__':
+    mutex = Lock()
     for i in range(1, 9):
-        p = Process(target=task, args=(i,))
+        p = Process(target=task, args=(i, mutex))
         p.start()
