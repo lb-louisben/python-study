@@ -5,8 +5,14 @@
 @Author     : louis
 @Date       : 5/11/23 16:55 
 """
-import time
+
 from functools import wraps
+
+import logging.config
+from conf import settings
+
+logging.config.dictConfig(settings.LOGGING_DIR)
+logger = logging.getLogger('logger3')
 
 
 def auth(func):
@@ -18,11 +24,13 @@ def auth(func):
             for line in f:
                 username, password = line.strip().split('=====')
                 if username == input_name and password == input_pwd:
+                    logger.debug(f'{input_name}登录成功')
                     print('登录成功'.center(80, '-'))
                     res = func(*args, **kwargs)
                     return res
                     break
             else:
+                logger.debug(f'{input_name}登录失败')
                 print('登录失败，用户名或密码错误'.center(80, '-'))
 
     return wrapper
@@ -34,10 +42,9 @@ def home():
     this is the home page info
     :return: none
     """
-    time.sleep(2)
+    logger.info(f'访问 home 成功')
     print('welcome...')
 
 
 if __name__ == '__main__':
     home()
-    print(home.__doc__)
